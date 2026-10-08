@@ -1,13 +1,6 @@
 <!doctype html>
 <html lang="cs"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>BarberX – Barber Praha | Pánské střihy a rezervace</title>
-<meta name="description" content="BarberX – moderní barber v Praze. Pánské střihy, úprava vousů a další barber služby. Prohlédněte si nabídku a rezervujte si svůj termín online.">
-<meta name="keywords" content="barber Praha, barber shop Praha, pánský barber, pánské střihy Praha, střih vousů, úprava vousů, barber rezervace, BarberX">
-<meta name="robots" content="index, follow">
-<meta name="author" content="BarberX">
-<meta property="og:title" content="BarberX – Barber Praha | Pánské střihy a rezervace">
-<meta property="og:description" content="Moderní barber v Praze. Pánské střihy, úprava vousů a online rezervace termínu.">
-<meta property="og:type" content="website">
+<title>barberX — rezervace</title>
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#fff;color:#111;font-family:Arial,sans-serif}
@@ -28,9 +21,9 @@ h2{margin:0 0 15px;color:#111}
 .name{font-size:27px;font-weight:900;color:#111}
 .small,.service span{color:#777;font-size:13px}
 .price{margin-top:14px;font-weight:800;color:#9b7813}
-.dates{display:flex;gap:8px;overflow:auto}
+.dates{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .date,.time{border:1px solid #dedede;background:#fff;color:#111;border-radius:13px;padding:12px;cursor:pointer}
-.date{min-width:70px}
+.date{min-width:0}
 .date span{display:block;color:#888;font-size:11px}
 .date b{font-size:18px}
 .date.active,.time.active{border-color:#d4af37;background:#fff8df;color:#8a6a12;box-shadow:0 0 0 1px #d4af37 inset}
@@ -75,14 +68,17 @@ button.submit:hover{filter:brightness(.96);transform:translateY(-1px)}
 
 <section class="panel"><h2>2. Den</h2><div class="dates" id="dates"></div></section>
 <section class="panel"><h2>3. Služba</h2><div class="services">
-  <div class="service active" onclick="pickService('Fade',100,this)">
-    <div class="name">Fade</div><span>Klasický fade</span><div class="price">100 Kč</div>
+  <div class="service active" onclick="pickService('Jakýkoliv fade',100,this)">
+    <div class="name">Jakýkoliv fade</div><span>Libovolný fade</span><div class="price">100 Kč</div>
   </div>
   <div class="service" onclick="pickService('Freestyle',50,this)">
     <div class="name">Freestyle</div><span>Freestyle střih</span><div class="price">50 Kč</div>
   </div>
   <div class="service" onclick="pickService('Buzzcut',80,this)">
     <div class="name">Buzzcut</div><span>Krátký buzzcut</span><div class="price">80 Kč</div>
+  </div>
+  <div class="service" onclick="pickService('Jakýkoliv taper',100,this)">
+    <div class="name">Jakýkoliv taper</div><span>Libovolný taper</span><div class="price">100 Kč</div>
   </div>
 </div></section>
 <section class="panel"><h2>4. Dostupný čas</h2><div class="times" id="times"></div></section>
@@ -114,6 +110,9 @@ button.submit:hover{filter:brightness(.96);transform:translateY(-1px)}
   <a href="tel:608142560" style="display:block;margin-top:18px;padding:16px;border-radius:14px;background:#d7ff3f;color:#080808;text-decoration:none;font-weight:900;font-size:20px">
     📞 608 142 560
   </a>
+  <a href="mailto:barberx65@gmail.com" style="display:block;margin-top:10px;padding:16px;border-radius:14px;background:#fff;color:#111;border:1px solid #d4af37;text-decoration:none;font-weight:900;font-size:18px">
+    ✉️ barberx65@gmail.com
+  </a>
 </section>
 
 <script>
@@ -122,7 +121,7 @@ const weeklySchedule={
   Andrej:{1:["14:00","18:00"],2:["14:00","15:30"],5:["14:00","18:00"]},
   Max:{1:["14:30","14:30"],2:["14:30","17:00"],5:["14:30","17:30"]}
 };
-let barber="",date="",time="",service="Fade",price=100;
+let barber="",date="",time="",service="Jakýkoliv fade",price=100;
 const days=["NE","PO","ÚT","ST","ČT","PÁ","SO"];
 let bookedSlots={};
 
@@ -146,7 +145,7 @@ function getSlots(who,key){
 }
 function renderDates(){
   dates.innerHTML="";
-  for(let i=0;i<3;i++){
+  for(let i=0;i<5;i++){
     const d=new Date();
     d.setHours(12,0,0,0);
     d.setDate(d.getDate()+i);
